@@ -10,12 +10,21 @@ class App extends React.Component {
       originalTime: 1500,
       time: 1500,
       active: true
-    }
+    };
 
-    this.timerFunc = this.timerFunc.bind(this)
+    this.timerFunc = this.timerFunc.bind(this);
   }
 
-  timerFunc = () =>{
+  displayMinsCorrect(mins) {
+    if (mins / 10 < 1) {
+      return "0" + mins;
+    }
+    else {
+      return mins;
+    }
+  }
+
+  timerFunc() {
     setTimeout(() => {
     this.setState({
       time: this.state.time - 1
@@ -55,7 +64,7 @@ class App extends React.Component {
           </div>
 
           <div id="clock-display">
-            <h1 id="timer">{Math.floor(this.state.time / 60) + ":" + this.state.time % 60}</h1>
+            <h1 id="timer">{Math.floor(this.state.time / 60) + ":" + this.displayMinsCorrect(this.state.time % 60)}</h1>
           </div>
 
           <div id="start-stop-reset-controls">
