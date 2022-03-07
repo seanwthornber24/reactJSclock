@@ -54,8 +54,9 @@ class App extends React.Component {
   }
 
   reset() {
+    this.pauseTimer();
     this.setState({
-      time: this.state.originalTime
+      time: this.state.originalTime,
     });
   }
 
@@ -89,7 +90,11 @@ class App extends React.Component {
           </div>
 
           <div id="clock-display">
-            <h1 id="timer">{Math.floor(this.state.time / 60) + ":" + this.displayMinsCorrect(this.state.time % 60)}</h1>
+            {this.state.active == false
+            ? <h1 style={{color: "red", transition: "0.5s"}}id="timer">{Math.floor(this.state.time / 60) + ":" + this.displayMinsCorrect(this.state.time % 60)}</h1>
+            : <h1 style={{color: "green", transition: "0.5s"}}id="timer">{Math.floor(this.state.time / 60) + ":" + this.displayMinsCorrect(this.state.time % 60)}</h1>
+            }
+            {/* <h1 id="timer">{Math.floor(this.state.time / 60) + ":" + this.displayMinsCorrect(this.state.time % 60)}</h1> */}
           </div>
 
           <div id="start-stop-reset-controls">
