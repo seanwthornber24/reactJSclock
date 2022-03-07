@@ -58,6 +58,7 @@ body {
   font-size: 3vw;
 }
 
-a {
+a:hover {
+  color: rgb(160, 0, 0);
   cursor: pointer;
 }

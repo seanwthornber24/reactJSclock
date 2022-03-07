@@ -9,10 +9,13 @@ class App extends React.Component {
     this.state = {
       originalTime: 1500,
       time: 1500,
-      active: true
+      active: false
     };
 
-    this.timerFunc = this.timerFunc.bind(this);
+    this.startTimerFunc = this.startTimerFunc.bind(this);
+    this.setTimerActive = this.setTimerActive.bind(this);
+    this.pauseTimer = this.pauseTimer.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   displayMinsCorrect(mins) {
@@ -24,14 +27,36 @@ class App extends React.Component {
     }
   }
 
-  timerFunc() {
-    setTimeout(() => {
+  setTimerActive() {
+    if (!this.state.active) {
+      this.setState({
+        active: true
+      });
+      this.startTimerFunc();
+    }
+  }
+
+  startTimerFunc() {
+      setTimeout(() => {
+        if (this.state.active) {
+          this.setState({
+            time: this.state.time - 1
+          });
+          if (this.state.time > 0) {
+            this.startTimerFunc();
+          }}}, 1000)
+  }
+  
+  pauseTimer() {
     this.setState({
-      time: this.state.time - 1
+      active: false
+    })
+  }
+
+  reset() {
+    this.setState({
+      time: this.state.originalTime
     });
-    if (this.state.time > 0) {
-      this.timerFunc();
-    }}, 1000)
   }
 
   render() {
@@ -68,9 +93,9 @@ class App extends React.Component {
           </div>
 
           <div id="start-stop-reset-controls">
-            <a onClick={this.timerFunc}><i class="bi bi-play"></i></a>
-            <i class="bi bi-pause"></i>
-            <i class="bi bi-stop"></i>
+            <a onClick={this.setTimerActive}><i class="bi bi-play"></i></a>
+            <a onClick={this.pauseTimer}><i class="bi bi-pause"></i></a>
+            <a onClick={this.reset}><i class="bi bi-stop"></i></a>
           </div>
         </div>
 
