@@ -9,6 +9,8 @@ class App extends React.Component {
     this.state = {
       originalTime: 1500,
       time: 1500,
+      originalBreakTime: 300,
+      break: false,
       active: false
     };
 
@@ -18,7 +20,7 @@ class App extends React.Component {
     this.reset = this.reset.bind(this);
   }
 
-  displayMinsCorrect(mins) {
+  displayTimeCorrect(mins) {
     if (mins / 10 < 1) {
       return "0" + mins;
     }
@@ -37,14 +39,25 @@ class App extends React.Component {
   }
 
   startTimerFunc() {
-      setTimeout(() => {
-        if (this.state.active) {
-          this.setState({
-            time: this.state.time - 1
-          });
-          if (this.state.time > 0) {
-            this.startTimerFunc();
-          }}}, 1000)
+    setTimeout(() => {
+      if (this.state.active) {
+        this.setState({
+          time: this.state.time - 1
+        });
+        if (this.state.time >= 0) {
+          this.startTimerFunc();
+        }
+        // else {
+        //   if (!this.state.break) {
+        //     this.setState({
+        //       break: true,
+        //       time: this.state.originalBreakTime
+        //     });
+        //     this.startTimerFunc();
+        //   }
+        // }
+      }
+    }, 1000);
   }
   
   pauseTimer() {
@@ -61,10 +74,6 @@ class App extends React.Component {
   }
 
   render() {
-    let x = 83;
-    console.log(Math.floor(x / 60));
-    console.log(x % 60);
-
     return (
       <div id="top-level-container">
 
@@ -73,26 +82,26 @@ class App extends React.Component {
             <div id="break-controls" className="control-div">
               <h1 id="break-label">Break Length</h1>
               <div className="control-buttons-div">
-                <a><h1>+</h1></a>
-                <h1>5</h1>
-                <a><h1>-</h1></a>
+                <a id="break-increment"><h1>+</h1></a>
+                <h1 id="break-length">5</h1>
+                <a id="break-decrement"><h1>-</h1></a>
               </div>
             </div>
 
             <div id="session-controls" className="control-div">
               <h1 id="session-label">Session Length</h1>
               <div className="control-buttons-div">
-                <a><h1>+</h1></a>
-                <h1>25</h1>
-                <a><h1>-</h1></a>
+                <a id="session-increment"><h1>+</h1></a>
+                <h1 id="session-length">25</h1>
+                <a id="session-decrement"><h1>-</h1></a>
               </div>
             </div>
           </div>
 
           <div id="clock-display">
             {this.state.active == false
-            ? <h1 style={{color: "red", transition: "0.5s"}}id="timer">{Math.floor(this.state.time / 60) + ":" + this.displayMinsCorrect(this.state.time % 60)}</h1>
-            : <h1 style={{color: "green", transition: "0.5s"}}id="timer">{Math.floor(this.state.time / 60) + ":" + this.displayMinsCorrect(this.state.time % 60)}</h1>
+            ? <h1 style={{color: "red", transition: "1s"}}id="timer">{this.displayTimeCorrect(Math.floor(this.state.time / 60)) + ":" + this.displayTimeCorrect(this.state.time % 60)}</h1>
+            : <h1 style={{color: "green", transition: "1s"}}id="timer">{this.displayTimeCorrect(Math.floor(this.state.time / 60)) + ":" + this.displayTimeCorrect(this.state.time % 60)}</h1>
             }
             {/* <h1 id="timer">{Math.floor(this.state.time / 60) + ":" + this.displayMinsCorrect(this.state.time % 60)}</h1> */}
           </div>

@@ -3,6 +3,7 @@
 body { 
   color: red;
   background-color: rgb(44, 44, 44);
+  font-family: 'Orbitron', sans-serif;
 }
 
 #display {
