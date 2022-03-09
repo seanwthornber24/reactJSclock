@@ -57,6 +57,13 @@ class App extends React.Component {
             });
             this.timerFunc();
           }
+          else {
+            this.setState({
+              break: false,
+              time: this.state.originalTime
+            });
+            this.timerFunc();
+          }
         }
       }
     }, 1000);
