@@ -34,10 +34,28 @@ body {
 
 #break-label {
   margin: 0;
+  font-size: 2vw;
+}
+
+#increment {
+  font-size: 2vw;
+}
+
+#decrement {
+  font-size: 2vw;
+}
+
+#break-length {
+  font-size: 2vw;
 }
 
 #session-label {
+  font-size: 2vw;
   margin: 0;
+}
+
+#session-length {
+  font-size: 2vw;
 }
 
 #timer {

@@ -46,7 +46,7 @@ class App extends React.Component {
         this.setState({
           time: this.state.time - 1
         });
-        if (this.state.time > 0) {
+        if (this.state.time >= 0) {
           this.timerFunc();
         }
         else {
@@ -88,7 +88,7 @@ class App extends React.Component {
         this.setState({
           originalTime: this.state.originalTime + 60
         });
-        setTimeout(() => this.reset(), 10)
+        // setTimeout(() => this.reset(), 10)
       }
     }
   }
@@ -106,7 +106,7 @@ class App extends React.Component {
         this.setState({
           originalTime: this.state.originalTime - 60
         });
-        setTimeout(() => this.reset(), 10)
+        // setTimeout(() => this.reset(), 10)
       }
     }
   }
@@ -114,7 +114,9 @@ class App extends React.Component {
   reset() {
     this.pauseTimer();
     this.setState({
-      time: this.state.originalTime,
+      originalTime: 1500,
+      originalBreakTime: 300,
+      time: 1500,
       break: false
     });
   }
@@ -128,41 +130,44 @@ class App extends React.Component {
             <div id="break-controls" className="control-div">
               <h1 id="break-label">Break Length</h1>
               <div className="control-buttons-div">
-                <a id="break-increment" onClick={() => this.increment("break")}><h1>+</h1></a>
+                <a id="break-increment" onClick={() => this.increment("break")}><h1 id="increment">+</h1></a>
                 <h1 id="break-length">{this.state.originalBreakTime / 60}</h1>
-                <a id="break-decrement" onClick={() => this.decrement("break")}><h1>-</h1></a>
+                <a id="break-decrement" onClick={() => this.decrement("break")}><h1 id="decrement">-</h1></a>
               </div>
             </div>
 
             <div id="session-controls" className="control-div">
               <h1 id="session-label">Session Length</h1>
               <div className="control-buttons-div">
-                <a id="session-increment" onClick={() => this.increment("session")}><h1>+</h1></a>
+                <a id="session-increment" onClick={() => this.increment("session")}><h1 id="increment">+</h1></a>
                 <h1 id="session-length">{this.state.originalTime / 60}</h1>
-                <a id="session-decrement" onClick={() => this.decrement("session")}><h1>-</h1></a>
+                <a id="session-decrement" onClick={() => this.decrement("session")}><h1 id="decrement">-</h1></a>
               </div>
             </div>
           </div>
 
           <div id="clock-display">
             {this.state.break
-            ? <h1 style={{color: "green", transition: "1s"}}id="timer">{this.displayTimeCorrect(Math.floor(this.state.time / 60)) + ":" + this.displayTimeCorrect(this.state.time % 60)}</h1>
-            : <h1 style={{color: "red", transition: "1s"}}id="timer">{this.displayTimeCorrect(Math.floor(this.state.time / 60)) + ":" + this.displayTimeCorrect(this.state.time % 60)}</h1>
+            ? <h1 style={{color: "green", transition: "1s"}}id="time-left">{this.displayTimeCorrect(Math.floor(this.state.time / 60)) + ":" + this.displayTimeCorrect(this.state.time % 60)}</h1>
+            : <h1 style={{color: "red", transition: "1s"}}id="time-left">{this.displayTimeCorrect(Math.floor(this.state.time / 60)) + ":" + this.displayTimeCorrect(this.state.time % 60)}</h1>
             }
             {/* <h1 id="timer">{Math.floor(this.state.time / 60) + ":" + this.displayMinsCorrect(this.state.time % 60)}</h1> */}
           </div>
 
           <div id="start-stop-reset-controls">
-            <a onClick={this.setTimerActive}><i class="bi bi-play"></i></a>
-            <a onClick={this.pauseTimer}><i class="bi bi-pause"></i></a>
-            <a onClick={this.reset}><i class="bi bi-stop"></i></a>
+            {!this.state.active 
+            ? <a onClick={this.setTimerActive} id="start_stop"><i class="bi bi-play"></i></a>
+            : <a onClick={this.pauseTimer} id="start_stop"><i class="bi bi-pause"></i></a>}
+            
+            {/* <a onClick={this.pauseTimer}><i class="bi bi-pause"></i></a> */}
+            <a onClick={this.reset} id="reset"><i class="bi bi-stop"></i></a>
           </div>
 
           <div>
-            {this.state.break && this.state.active ? <h2 style={{color: "green"}}>Break time!</h2>
-            : !this.state.break && this.state.active ? <h2 style={{color: "red"}}>Session in progress...</h2>
-            : !this.state.break && !this.state.active ? <h2 style={{opacity: "0"}}>hidden</h2>
-            : <h2 style={{color: "green"}}>Break time!</h2>
+            {this.state.break && this.state.active ? <h2 style={{color: "green"}} id="timer-label">Break time!</h2>
+            : !this.state.break && this.state.active ? <h2 style={{color: "red"}} id="timer-label">Session in progress...</h2>
+            : !this.state.break && !this.state.active ? <h2 style={{opacity: "0"}} id="timer-label">hidden</h2>
+            : <h2 style={{color: "green"}} id="timer-label">Break time!</h2>
             }
           </div>
         </div>
